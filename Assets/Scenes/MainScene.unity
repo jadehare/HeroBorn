@@ -1272,7 +1272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 214d12d056cbbee4c9637414ab100548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CamOffset: {x: 0, y: 1.2, z: -2.6}
+  CamOffset: {x: 0, y: 3, z: -5}
   player: {fileID: 1251724660}
 --- !u!1001 &990211056
 PrefabInstance:
@@ -1514,13 +1514,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0eeea4452a2fa84c84ecba56fce404d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GroudLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  Bullet: {fileID: 2052953087367231126, guid: 43a9e9346b843c34892730c3ddcc2585, type: 3}
   MoveSpeed: 10
   RotationSpeed: 75
   JumpVelocity: 5
   DistanceToGround: 0.1
-  GroudLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  BulletSpeed: 10
 --- !u!1 &1307377089
 GameObject:
   m_ObjectHideFlags: 0

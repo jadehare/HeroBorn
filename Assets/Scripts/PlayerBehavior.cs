@@ -5,6 +5,10 @@ using UnityEngine;
 public class PlayerBehavior : MonoBehaviour
 {
 
+    public LayerMask GroudLayer;
+
+    public GameObject Bullet;
+
     public float MoveSpeed = 10f;
     public float RotationSpeed = 75f;
 
@@ -12,7 +16,9 @@ public class PlayerBehavior : MonoBehaviour
 
     public float DistanceToGround = 0.1f;
 
-    public LayerMask GroudLayer;
+    public float BulletSpeed = 10f;
+
+    private bool _isShooting = false;
 
     private CapsuleCollider _col;
 
@@ -53,6 +59,8 @@ public class PlayerBehavior : MonoBehaviour
         //
         _isJumping |= Input.GetKeyDown(KeyCode.J);
 
+        _isShooting |= Input.GetKeyDown(KeyCode.Space);
+
     }
 
 
@@ -75,6 +83,19 @@ public class PlayerBehavior : MonoBehaviour
         }
         _isJumping = false;
 
+        if (_isShooting)
+        {
+            GenerateBullet();
+        }
+
+        _isShooting = false;
+    }
+
+    private void GenerateBullet()
+    {
+        GameObject bullet = Instantiate<GameObject>(Bullet, transform.position + new Vector3(0, 0, 1), transform.rotation);
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        rb.velocity = transform.forward * BulletSpeed;
     }
 
     private bool IsGrounded()
