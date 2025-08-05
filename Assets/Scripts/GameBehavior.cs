@@ -1,11 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public int MaxItems = 4;
+
+    public TMP_Text HealthText;
+    public TMP_Text ItemsText;
+    public TMP_Text ProgressText;
+
+    public Button WinButton;
+
+
     private int _itemsCollected = 0;
     private int _playerHP = 10;
+
+    void Start()
+    {
+        HealthText.text += _playerHP;
+        ItemsText.text += _itemsCollected;
+    }
 
 
     public int Items
@@ -15,6 +32,19 @@ public class GameManager : MonoBehaviour
         {
             _itemsCollected = value;
             Debug.Log("Items collected: " + _itemsCollected);
+
+            ItemsText.text = "Items: " + Items;
+
+            if (Items >= MaxItems)
+            {
+                ProgressText.text = "You win!";
+                Debug.Log("You win!");
+                WinButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                ProgressText.text = "Item found, only " + (MaxItems - Items) + " more!";
+            }
         }
     }
 
@@ -25,6 +55,7 @@ public class GameManager : MonoBehaviour
         {
             _playerHP = value;
             Debug.Log("Player HP: " + _playerHP);
+            HealthText.text = "HP: " + _playerHP;
         }
     }
 }

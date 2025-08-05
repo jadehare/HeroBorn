@@ -22,13 +22,13 @@ public class ItemBehavior : MonoBehaviour
 
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.name == "Player")
+        if (other.gameObject.name == "Player")
         {
             Destroy(gameObject); // 销毁物品
             Debug.Log("Item collected by player!");
-            
+
             gameManager.Items += 1;
         }
     }
