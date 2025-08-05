@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour
                 ProgressText.text = "You win!";
                 Debug.Log("You win!");
                 WinButton.gameObject.SetActive(true);
+
+                Time.timeScale = 0;
             }
             else
             {
@@ -57,5 +60,11 @@ public class GameManager : MonoBehaviour
             Debug.Log("Player HP: " + _playerHP);
             HealthText.text = "HP: " + _playerHP;
         }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1;
     }
 }
