@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     public Button WinButton;
 
+    public Button LoseButton;
 
     private int _itemsCollected = 0;
     private int _playerHP = 10;
@@ -38,11 +40,10 @@ public class GameManager : MonoBehaviour
 
             if (Items >= MaxItems)
             {
-                ProgressText.text = "You win!";
                 Debug.Log("You win!");
                 WinButton.gameObject.SetActive(true);
 
-                Time.timeScale = 0;
+                UpdateScene("You found all the items! You win!");
             }
             else
             {
@@ -59,6 +60,19 @@ public class GameManager : MonoBehaviour
             _playerHP = value;
             Debug.Log("Player HP: " + _playerHP);
             HealthText.text = "HP: " + _playerHP;
+
+            if (_playerHP <= 0)
+            {
+                Debug.Log("You lose!");
+                LoseButton.gameObject.SetActive(true);
+
+                UpdateScene("You have been defeated! Game Over!");
+
+            }
+            else
+            {
+                ProgressText.text = "Ouch! That's got to hurt! HP: " + _playerHP;
+            }
         }
     }
 
@@ -66,5 +80,11 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1;
+    }
+
+    public void UpdateScene(string UpdateText)
+    {
+        ProgressText.text = UpdateText;
+        Time.timeScale = 0;
     }
 }

@@ -29,6 +29,8 @@ public class PlayerBehavior : MonoBehaviour
 
     private bool _isJumping = false;
 
+    private GameManager _gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +45,8 @@ public class PlayerBehavior : MonoBehaviour
         {
             Debug.LogError("CapsuleCollider component not found on PlayerBehavior script.");
         }
+
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -104,5 +108,19 @@ public class PlayerBehavior : MonoBehaviour
         // 忽略Trigger碰撞器
         bool grounded = Physics.CheckCapsule(_col.bounds.center, capsuleBottom, DistanceToGround, GroudLayer, QueryTriggerInteraction.Ignore);
         return grounded;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "Enemy")
+        {
+            Debug.Log("Player collided with an enemy!");
+            _gameManager.HP -= 1; // 减少玩家生命值
+            if (_gameManager.HP <= 0)
+            {
+                Debug.Log("Player has died!");
+                // 这里可以添加玩家死亡的逻辑，比如重启游戏或显示游戏结束界面
+            }
+        }
     }
 }
