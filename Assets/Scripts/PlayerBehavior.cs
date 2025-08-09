@@ -18,6 +18,10 @@ public class PlayerBehavior : MonoBehaviour
 
     public float BulletSpeed = 10f;
 
+    public delegate void EventDelegate(int type, string message);
+
+    public event EventDelegate eventInstance;
+
     private bool _isShooting = false;
 
     private CapsuleCollider _col;
@@ -84,6 +88,9 @@ public class PlayerBehavior : MonoBehaviour
         if (isGrounded && _isJumping)
         {
             _rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
+
+            // 检查事件是否有订阅者再调用
+            eventInstance?.Invoke(0, "Player jumped!");
         }
         _isJumping = false;
 
@@ -112,7 +119,7 @@ public class PlayerBehavior : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.name == "Enemy")
+        if (collision.gameObject.name == "Enemy")
         {
             Debug.Log("Player collided with an enemy!");
             _gameManager.HP -= 1; // 减少玩家生命值
@@ -123,4 +130,5 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
     }
+
 }

@@ -22,6 +22,17 @@ public class GameManager : MonoBehaviour, IManager
 
     public Button LoseButton;
 
+    public delegate void DebugDelegate(string message);
+
+    public DebugDelegate DebugEvent = Print;
+
+    public static void Print(string message)
+    {
+        Debug.Log(message);
+    }
+
+    public PlayerBehavior playerBehavior;
+
     private int _itemsCollected = 0;
     private PlayerHealthInt _playerHP = 10;
 
@@ -51,6 +62,17 @@ public class GameManager : MonoBehaviour, IManager
         FilterLoot();
     }
 
+    void OnEnable()
+    {
+        GameObject player = GameObject.Find("Player");
+        playerBehavior = player.GetComponent<PlayerBehavior>();
+        playerBehavior.eventInstance += EventHandler;
+    }
+
+    void OnDisable()
+    {
+        playerBehavior.eventInstance -= EventHandler;
+    }
 
     public int Items
     {
@@ -116,6 +138,8 @@ public class GameManager : MonoBehaviour, IManager
         _state = "GameManager initialized";
         _state.FancyDebug();
         Debug.Log(_state);
+
+        DebugEvent(_state);
     }
 
     public void PrintLootReport()
@@ -128,7 +152,24 @@ public class GameManager : MonoBehaviour, IManager
         var rareLoot = LootStack.Where(item => item.Rarity >= 3).OrderBy(item => item.Rarity).Select(item => item.Name);
         foreach (var lootName in rareLoot)
         {
-            Debug.LogFormat("Rare loot found: {0} (Rarity: {1})", lootName);
+            Debug.LogFormat("Rare loot found: {0}", lootName);
+        }
+    }
+
+    
+    public void EventHandler(int type, string message)
+    {
+        switch (type)
+        {
+            case 0:
+                Debug.Log("Event Type 0: " + message);
+                break;
+            case 1:
+                Debug.Log("Event Type 1: " + message);
+                break;
+            default:
+                Debug.Log("Unknown event type: " + type);
+                break;
         }
     }
 
