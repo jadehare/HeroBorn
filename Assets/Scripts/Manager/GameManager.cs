@@ -6,6 +6,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 
+using PlayerHealthInt = System.Int16;
+
+using CustomExtensions;
 public class GameManager : MonoBehaviour, IManager
 {
     public int MaxItems = 4;
@@ -19,7 +22,7 @@ public class GameManager : MonoBehaviour, IManager
     public Button LoseButton;
 
     private int _itemsCollected = 0;
-    private int _playerHP = 10;
+    private PlayerHealthInt _playerHP = 10;
 
     private string _state;
 
@@ -62,7 +65,7 @@ public class GameManager : MonoBehaviour, IManager
         }
     }
 
-    public int HP
+    public PlayerHealthInt HP
     {
         get { return _playerHP; }
         set
@@ -100,6 +103,7 @@ public class GameManager : MonoBehaviour, IManager
     public void Initialize()
     {
         _state = "GameManager initialized";
+        _state.FancyDebug();
         Debug.Log(_state);
     }
 }
