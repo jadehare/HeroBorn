@@ -78,8 +78,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(0);
-        Time.timeScale = 1;
+        Utilities.RestartLevel();
     }
 
     public void UpdateScene(string UpdateText)
