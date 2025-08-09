@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IManager
 {
     public int MaxItems = 4;
 
@@ -21,8 +21,18 @@ public class GameManager : MonoBehaviour
     private int _itemsCollected = 0;
     private int _playerHP = 10;
 
+    private string _state;
+
+    public string State
+    {
+        get => _state;
+        set => _state = value;
+    }
+
     void Start()
     {
+        Initialize();
+
         HealthText.text += _playerHP;
         ItemsText.text += _itemsCollected;
     }
@@ -85,5 +95,11 @@ public class GameManager : MonoBehaviour
     {
         ProgressText.text = UpdateText;
         Time.timeScale = 0;
+    }
+
+    public void Initialize()
+    {
+        _state = "GameManager initialized";
+        Debug.Log(_state);
     }
 }
