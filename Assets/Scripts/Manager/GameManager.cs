@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using PlayerHealthInt = System.Int16;
 
 using CustomExtensions;
+using System.Linq;
 public class GameManager : MonoBehaviour, IManager
 {
     public int MaxItems = 4;
@@ -32,12 +33,22 @@ public class GameManager : MonoBehaviour, IManager
         set => _state = value;
     }
 
+    public Stack<Loot> LootStack = new Stack<Loot>();
+
     void Start()
     {
         Initialize();
 
         HealthText.text += _playerHP;
         ItemsText.text += _itemsCollected;
+
+        LootStack.Push(new Loot("Sword of Doom", 5));
+        LootStack.Push(new Loot("HP Boost", 1));
+        LootStack.Push(new Loot("Golden Key", 3));
+        LootStack.Push(new Loot("Pair of Winged Boots", 2));
+        LootStack.Push(new Loot("Mythril Bracer", 4));
+
+        FilterLoot();
     }
 
 
@@ -106,4 +117,19 @@ public class GameManager : MonoBehaviour, IManager
         _state.FancyDebug();
         Debug.Log(_state);
     }
+
+    public void PrintLootReport()
+    {
+        Debug.LogFormat("There are {0} items in the loot stack.", LootStack.Count);
+    }
+
+    public void FilterLoot()
+    {
+        var rareLoot = LootStack.Where(item => item.Rarity >= 3).OrderBy(item => item.Rarity).Select(item => item.Name);
+        foreach (var lootName in rareLoot)
+        {
+            Debug.LogFormat("Rare loot found: {0} (Rarity: {1})", lootName);
+        }
+    }
+
 }
